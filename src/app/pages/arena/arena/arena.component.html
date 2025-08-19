@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Arena - Combat</title>
+    <link rel="stylesheet" href="arena.component.css" />
+    <!-- <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css"> -->
+    <link rel="shortcut icon" href="/img/Pokeball_Icon.png" />
+
+    <!-- Custom pokemon'ish font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="black-overlay" id="blackOverlay" [class.clear]="!loadFlag()">
+      <img
+        src="../img/Pokeball_Icon.png"
+        alt="Logo Pokeball"
+        class="logo"
+        id="logo"
+      />
+    </div>
+    <!-- MODAL REITENTAR -->
+    <div
+      class="modal"
+      id="retry"
+      [class.show]="this.showModal()"
+      ChangeDetectionStrategy.OnPush
+    >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <p>Retry?</p>
+        <div class="btn-container">
+          <button
+            class="btn btn-yes"
+            id="btnYes"
+            (click)="this.retrySequence()"
+          >
+            Yes
+          </button>
+          <button class="btn btn-no" id="btnNo" (click)="router.navigate([''])">
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="combatGrid">
+      <!-- SPRITE POKEMON Y BARRA ESTADO DEL RIVAL -->
+      <div class="status" id="rivalStatus">
+        <div class="levelAndName">
+          <p class="name" id="rivalPokemonName">
+            {{ rivalPokemon()?.name || "-" }}
+          </p>
+          <p class="level" id="rivalPokemonLevel">LV: 100</p>
+        </div>
+
+        <div class="healthBar">
+          <div class="condition normal"><span>STA</span></div>
+          <div class="hp">
+            <span>HP</span>
+            <div class="hpBar">
+              <div
+                class="hpLevel"
+                id="hpLevelRival"
+                [style.width]="this.rivalPokemon()?.hpLevel + '%'"
+                [class.red]="this.rivalHpLevel() < hpLevelColor.RED"
+                [class.yellow]="
+                  this.rivalHpLevel() >= hpLevelColor.RED && this.rivalHpLevel() <= hpLevelColor.GREEN
+                "
+                [class.green]="this.rivalHpLevel() > hpLevelColor.GREEN"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pokemon" id="rivalPokemon">
+        <img
+          src=""
+          id="rivalPokemonImg"
+          [src]="rivalPokemon()?.img"
+          [class.rival-attack]="this.rivalAnimation() === animation.ATTACK"
+          [class.blink]="this.rivalAnimation() === animation.DEFENSE"
+          [class.faint]="this.rivalAnimation() === animation.FAINT"
+        />
+        <div class="sombra"></div>
+      </div>
+
+      <!-- SPRITE POKEMON Y BARRA ESTADO DEL JUGADOR -->
+      <div class="status" id="trainerStatus">
+        <div class="levelAndName">
+          <p class="name" id="trainerPokemonName">
+            {{ playerPokemon()?.name || "-" }}
+          </p>
+          <p class="level" id="trainerPokemonLevel">LV: 100</p>
+        </div>
+
+        <div class="healthBar">
+          <div class="condition normal" id="condition"><span>STA</span></div>
+          <div class="hp">
+            <span>HP</span>
+            <!-- Usaremos @switch para elegir color dependiendo del nivel de HP -->
+            <div class="hpBar">
+              <div
+                class="hpLevel"
+                id="hpLevelTrainer"
+                [style.width]="this.playerPokemon()?.hpLevel + '%'"
+                [class.red]="this.playerHpLevel() < hpLevelColor.RED"
+                [class.yellow]="this.playerHpLevel() >= hpLevelColor.RED && this.playerHpLevel() <= hpLevelColor.GREEN"
+                [class.green]="this.playerHpLevel() > hpLevelColor.GREEN"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="healthNumber">
+          <span id="healthNumber">{{
+            this.playerPokemon()?.stats?.currentHp
+          }}</span
+          >/<span id="healthNumberMax">{{
+            this.playerPokemon()?.stats?.hp
+          }}</span>
+        </div>
+      </div>
+
+      <div class="pokemon" id="trainerPokemon">
+        <img
+          id="trainerPokemonImg"
+          [src]="playerPokemon()?.img"
+          [class.player-attack]="this.playerAnimation() === animation.ATTACK"
+          [class.blink]="this.playerAnimation() === animation.DEFENSE"
+          [class.faint]="this.playerAnimation() === animation.FAINT"
+        />
+        <div class="sombra"></div>
+      </div>
+
+      <!-- MENU DE DIALOGO Y MOVIMIENTOS -->
+      <div class="menu">
+        <div class="text">
+          <p id="trainerPokemonText">{{ pokemonService.textMenu() }}</p>
+        </div>
+        <div
+          class="moves"
+          id="moves"
+          [style.pointerEvents]="pokemonService.movePointerEvents()"
+        >
+          <div
+            class="move"
+            id="move1"
+            [class.hidden]="!this.pokemonService.visibleMoves()"
+            (click)="useMoves(1)"
+          >
+            {{ movesHtml()[0] }}
+          </div>
+          <div
+            class="move"
+            id="move2"
+            [class.hidden]="!this.pokemonService.visibleMoves()"
+            (click)="useMoves(2)"
+          >
+            {{ movesHtml()[1] }}
+          </div>
+          <div
+            class="move"
+            id="move3"
+            [class.hidden]="!this.pokemonService.visibleMoves()"
+            (click)="useMoves(3)"
+          >
+            {{ movesHtml()[2] }}
+          </div>
+          <div
+            class="move"
+            id="move4"
+            [class.hidden]="!this.pokemonService.visibleMoves()"
+            (click)="useMoves(4)"
+          >
+            {{ movesHtml()[3] }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../js/declaration.js"></script>
+    <script src="../js/dataFetch.js"></script>
+    <script src="../js/combat.js"></script>
+    <script src="../js/app.js"></script>
+  </body>
+</html>

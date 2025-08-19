@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* VARIABLES */
+:root{
+    --color-primario: #FCB03B;
+    --color-secundario: #E92F3D;
+    --color-background: #EFF6F5;
+    --color-background-dark: rgb(42, 42, 42);
+    --color-texto: #a1a5a6;
+    --text-default: "Open Sans";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pixelify Sans", Arial, Helvetica, sans-serif;
+}
+

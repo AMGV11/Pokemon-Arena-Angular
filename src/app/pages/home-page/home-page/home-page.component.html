@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Arena</title>
+    <link rel="shortcut icon" href="../../../img/logo.png" />
+
+    <!-- Custom pokemon'ish font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="body">
+    <header></header>
+    <div class="black-overlay" id="blackOverlay" [class.dark]="transition()">
+      <img
+        src="/img/Pokeball_Icon.png"
+        alt="Logo Pokeball"
+        class="logo"
+        id="logoTransition"
+        [class.transition]="transition()"
+      />
+    </div>
+
+    <main>
+      <div id="title">
+        <img
+          src="/img/Pokeball_Icon.png"
+          alt="Logo Pokeball"
+          id="logo"
+          class="logo"
+        />
+        <h1>Pokemon Arena</h1>
+      </div>
+
+      <div id="start">
+        <button id="startButton" (click)="transitionToArena()">Start</button>
+      </div>
+
+      <div id="config" class="config">
+        <div class="field">
+          <label for="language" id="languageLabel" class="label"
+            >Language</label
+          >
+          <select name="language" id="language">
+            <option value="english">English</option>
+            <option value="spanish">Español</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="theme" id="themeLabel" class="label">Theme</label>
+          <select name="theme" id="theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
