@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PokemonArenaAngular
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# Pokemon-Arena-Angular
+A Pokemon battle simulator now develop in Angular.
+>>>>>>> 1f95f2f2ecf5d80b5580e37bb8e65c977e7f660a
